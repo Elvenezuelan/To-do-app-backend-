@@ -3,6 +3,8 @@ lockfileVersion: 5.4
 specifiers:
   bcrypt: ^5.1.0
   body-parser: ^1.20.1
+  cors: ^2.8.5
+  dotenv: ^16.0.3
   express: ^4.18.2
   jsonwebtoken: ^8.5.1
   nodemon: ^2.0.20
@@ -12,6 +14,8 @@ specifiers:
 dependencies:
   bcrypt: 5.1.0
   body-parser: 1.20.1
+  cors: 2.8.5
+  dotenv: 16.0.3
   express: 4.18.2
   jsonwebtoken: 8.5.1
   nodemon: 2.0.20
@@ -222,6 +226,14 @@ packages:
     engines: {node: '>= 0.6'}
     dev: false
 
+  /cors/2.8.5:
+    resolution: {integrity: sha512-KIHbLJqu73RGr/hnbrO9uBeixNGuvSQjul/jdFvS/KFSIH1hWVd1ng7zOHx+YrEfInLG7q4n6GHQ9cDtxv/P6g==}
+    engines: {node: '>= 0.10'}
+    dependencies:
+      object-assign: 4.1.1
+      vary: 1.1.2
+    dev: false
+
   /debug/2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
     peerDependencies:
@@ -274,6 +286,11 @@ packages:
   /detect-libc/2.0.1:
     resolution: {integrity: sha512-463v3ZeIrcWtdgIg6vI6XUncguvr2TnGl4SzDXinkt9mSLpBJKXT3mW6xT3VQdDN11+WVs29pgvivTc4Lp8v+w==}
     engines: {node: '>=8'}
+    dev: false
+
+  /dotenv/16.0.3:
+    resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==}
+    engines: {node: '>=12'}
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:

@@ -7,10 +7,10 @@ export default {
     let color = Math.floor(Math.random() * 5);
     console.log(color);
     pool
-      .query("INSERT INTO tags (category_title, color) values($1, $2)", [
-        req.body.name,
-        colors[color],
-      ])
+      .query(
+        "INSERT INTO tags (category_title, color) values($1, $2) RETURNING id",
+        [req.body.name, colors[color]]
+      )
       .then((response) => res.status(200).json(response))
       .catch((error) => res.status(500).json(error));
   },

@@ -1,6 +1,5 @@
 import pool from "../database/database.js";
 import short from "short-uuid";
-import { text } from "body-parser";
 // function manyRelationshipHandler(table, tags, id) {
 //   var text = `INSERT INTO tasks_${table} (tasks_id, ${table}_id) VALUES (${id}, ${tags[0]})`;
 //   for (let i = 1; i < tags.length; i++) {
@@ -9,7 +8,7 @@ import { text } from "body-parser";
 //   }
 //   return text
 // }
-
+//function to make statement insert with multiple rows
 function manyRelationshipHandler(table, tags, id) {
   var text = `INSERT INTO tasks_${table} (tasks_id, ${table}_id) VALUES ($1, $2)`;
   for (let i = 3; i < tags.length + 2; i++) {
@@ -22,18 +21,23 @@ function manyRelationshipHandler(table, tags, id) {
 
 export default {
   create: function (req, res) {
-    const { title, description, done, tags, categories } = req.body;
+    console.log(req.token);
+    const { title, description, done, tags, category } = req.body;
     pool
       .query(
-        "INSERT INTO tasks (id ,title, description, done , create_at, update_at) values($1, $2, $3, $4, now(), now()) Returning id",
-        [short.generate(), title, description, done]
+        "INSERT INTO tasks (id ,title, description, done , create_at, update_at, category_id, user_id) values($1, $2, $3, $4, now(), now(), $5, $6) Returning id",
+        [short.generate(), title, description, done, category, req.token.id]
       )
       .then((response) => {
         let id = response.rows[0].id;
         console.log(id);
         if (tags) {
+          console.log(tags, id);
           const query = manyRelationshipHandler("tags", tags);
-          pool.query(query, [id, ...tags]);
+          pool
+            .query(query, [id, ...tags])
+            .then((e) => console.log(e))
+            .catch((err) => console.log(err));
         }
         console.log(response);
         res.status(200).json(response);
@@ -45,7 +49,7 @@ export default {
   },
   getAll: function (req, res) {
     pool
-      .query("SELECT * from public.tasks")
+      .query("SELECT * from public.tasks WHERE user_id = $1", [req.token.id])
       .then((result) => {
         res.status(200).json(result.rows);
         console.log(result.rows);
@@ -58,7 +62,10 @@ export default {
   getOne: (req, res) => {
     const id = req.params.id;
     pool
-      .query("SELECT * FROM public.tasks WHERE id = $1", [id])
+      .query("SELECT * FROM public.tasks WHERE id = $1 AND user_id = $2", [
+        id,
+        req.token.id,
+      ])
       .then((result) => {
         res.status(200).json(result.rows);
         console.log(result.rows);
