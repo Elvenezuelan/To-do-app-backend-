@@ -6,7 +6,7 @@ const pool = new Pool({
     user: 'postgres',
     host: 'localhost',
     database: 'postgres',
-    password: 'jean300805',
+    password: 'example',
     port: 5432,
 })
 // pool.query('SELECT NOW()', (err, res) => {
